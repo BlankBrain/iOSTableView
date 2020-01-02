@@ -11,6 +11,7 @@ import UIKit
 class TableViewController: UIViewController {
 
     var videos: [video] = []
+    var selectedRow: Int!
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -41,8 +42,22 @@ class TableViewController: UIViewController {
         return tempVideo
         
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        //print("section: \(indexPath.section)")
+        print("row: \(indexPath.row)")
+        print(videos[indexPath.row].title)
+        selectedRow = indexPath.row
+         self.performSegue(withIdentifier: "cellDetails", sender: self)
+        
+    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    guard let TableViewCellDetailViewController = segue.destination as? TableViewCellDetailViewController else {return}
+        TableViewCellDetailViewController.selectedVideo = videos[selectedRow]
 
 }
+}
+
 
 extension TableViewController: UITableViewDataSource , UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -59,4 +74,5 @@ extension TableViewController: UITableViewDataSource , UITableViewDelegate {
     
 }
     
+
 
